@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 
+
 namespace HomefulBackEnd.Services
 {
     public class ProfilesService
@@ -21,8 +22,15 @@ namespace HomefulBackEnd.Services
                 homefulDatabaseSettings.Value.ProfilesCollectionName);
         }
 
-        public async Task CreateAsync(CompleteProfile newProfile) => 
+        public async Task CreateAsync(CompleteProfile newProfile)
+        {
+            PasswordHash gen = new PasswordHash();
+            string hashed = gen.Hash(newProfile.Profile.Password);
+            newProfile.Profile.Password = hashed;
             await _profilesCollection.InsertOneAsync(newProfile);
+            
+        }
+
 
         public async Task<List<CompleteProfile>> GetAsync() =>
             await _profilesCollection.Find(_ => true).ToListAsync();

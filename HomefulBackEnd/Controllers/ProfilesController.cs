@@ -33,9 +33,16 @@ namespace HomefulBackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CompleteProfile newProfile)
         {
-            await _profilesService.CreateAsync(newProfile);
+            try
+            {
+                await _profilesService.CreateAsync(newProfile);
 
-            return CreatedAtAction(nameof(Get), new { id = newProfile.Id }, newProfile);
+                return CreatedAtAction(nameof(Get), new { id = newProfile.Id }, newProfile);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }
