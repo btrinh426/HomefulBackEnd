@@ -4,10 +4,10 @@ using System.Text;
 
 namespace HomefulBackEnd.Services
 {
-    public class PasswordHashTest
+    public class PasswordHash
     {
         const int SaltSize = 16, HashSize = 20, HashIter = 10000;
-        public string PasswordHash(string? password)
+        public string Hash(string? password)
         {
             HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
             byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);

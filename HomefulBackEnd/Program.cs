@@ -19,6 +19,7 @@ builder.Services.Configure<HomefulDatabaseSettings>(
     builder.Configuration.GetSection("HomefulDatabase"));
 
 builder.Services.AddSingleton<ProfilesService>();
+builder.Services.AddSingleton<LoginService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -11,6 +11,8 @@ namespace HomefulBackEnd.Models
 
         public Profile Profile { get; set; } = null!;
 
+        public string? Nickname { get; set; } = null!;
+
         public List<string> Position { get; set; } = null!;
 
         public List<Area> AreaOfChoice { get; set; } = null!;

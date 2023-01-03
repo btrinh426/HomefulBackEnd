@@ -15,8 +15,8 @@ namespace HomefulBackEnd.Controllers
             _profilesService = profilesService;
 
         [HttpGet]
-        public async Task<List<CompleteProfile>> Get() =>
-            await _profilesService.GetAsync();
+        public async Task<List<CompleteProfile>> GetAllAsync() =>
+            await _profilesService.GetAllAsync();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<CompleteProfile>> Get(string id)

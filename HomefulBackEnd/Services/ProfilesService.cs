@@ -28,14 +28,18 @@ namespace HomefulBackEnd.Services
             string hashed = gen.Hash(newProfile.Profile.Password);
             newProfile.Profile.Password = hashed;
             await _profilesCollection.InsertOneAsync(newProfile);
-            
+
         }
 
 
-        public async Task<List<CompleteProfile>> GetAsync() =>
+        public async Task<List<CompleteProfile>> GetAllAsync() =>
             await _profilesCollection.Find(_ => true).ToListAsync();
 
-        public async Task<CompleteProfile?> GetAsync(string id) =>
-            await _profilesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<CompleteProfile?> GetAsync(string id)
+        {
+            CompleteProfile profile = await _profilesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+            
+            return profile;
+        }
     }
 }
