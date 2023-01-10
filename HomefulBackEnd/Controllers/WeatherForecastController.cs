@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using HomefulBackEnd.Auth;
 
 namespace HomefulBackEnd.Controllers
 {
@@ -6,18 +8,22 @@ namespace HomefulBackEnd.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        
+        private readonly JwtAuthenticationManager _jwtAuthenticationManager;
+
+        public WeatherForecastController(JwtAuthenticationManager jwtAuthenticationManager)
+        {
+            this._jwtAuthenticationManager = jwtAuthenticationManager;
+        }
+
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
 
+        [Authorize]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -28,6 +34,19 @@ namespace HomefulBackEnd.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Authorize")]
+        public IActionResult AuthUser(LoginModel user)
+        {
+            var token = _jwtAuthenticationManager.Authenticate(user.Username, user.Password);
+            if(token == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(token);
         }
     }
 }
