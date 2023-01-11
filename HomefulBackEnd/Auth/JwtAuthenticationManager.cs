@@ -12,7 +12,7 @@ namespace HomefulBackEnd.Auth
 
         private readonly IDictionary<string, string> users = new Dictionary<string, string>()
         {
-            {"test", "password"}, {"test1", "pwd"}
+            {"test", "password"}, {"test1", "pwd"}, {"test2", "pwd2"}
         };
 
         public JwtAuthenticationManager(string key)
@@ -26,6 +26,8 @@ namespace HomefulBackEnd.Auth
             {
                 return null;
             }
+
+
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(key);

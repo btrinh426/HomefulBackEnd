@@ -280,3 +280,8 @@ C:\Users\HomefulBackEnd\HomefulBackEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Cry
 C:\Users\HomefulBackEnd\HomefulBackEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\HomefulBackEnd\HomefulBackEnd\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\HomefulBackEnd\HomefulBackEnd\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\HomefulBackEnd\HomefulBackEnd\obj\Debug\net6.0\staticwebassets\msbuild.HomefulBackEnd.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\HomefulBackEnd\HomefulBackEnd\obj\Debug\net6.0\staticwebassets\msbuild.build.HomefulBackEnd.props
+C:\Users\HomefulBackEnd\HomefulBackEnd\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.HomefulBackEnd.props
+C:\Users\HomefulBackEnd\HomefulBackEnd\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.HomefulBackEnd.props
+C:\Users\HomefulBackEnd\HomefulBackEnd\obj\Debug\net6.0\staticwebassets.pack.json

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using HomefulBackEnd.Models;
 using HomefulBackEnd.Services;
+using HomefulBackEnd.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 
 namespace HomefulBackEnd.Controllers
 {
@@ -9,19 +11,23 @@ namespace HomefulBackEnd.Controllers
     [ApiController]
     public class ProfilesController : ControllerBase
     {
-        private readonly ProfilesService _profilesService;
+        private IProfilesService _service = null;
+        //private readonly ProfilesService _profilesService;
 
-        public ProfilesController(ProfilesService profilesService) =>
-            _profilesService = profilesService;
+        public ProfilesController(IProfilesService service
+            , ILogger<ProfilesController> logger)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public async Task<List<CompleteProfile>> GetAllAsync() =>
-            await _profilesService.GetAllAsync();
+            await _service.GetAllAsync();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<CompleteProfile>> Get(string id)
         {
-            var profile = await _profilesService.GetAsync(id);
+            var profile = await _service.GetAsync(id);
 
             if(profile == null)
             {
@@ -35,7 +41,7 @@ namespace HomefulBackEnd.Controllers
         {
             try
             {
-                await _profilesService.CreateAsync(newProfile);
+                await _service.CreateAsync(newProfile);
 
                 return CreatedAtAction(nameof(Get), new { id = newProfile.Id }, newProfile);
             }

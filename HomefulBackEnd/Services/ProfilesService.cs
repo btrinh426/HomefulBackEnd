@@ -41,5 +41,12 @@ namespace HomefulBackEnd.Services
             
             return profile;
         }
+
+        public async Task<CompleteProfile?> GetProfile(string username)
+        {
+            CompleteProfile profile = await _profilesCollection.Find(x => x.Profile.Email == username).FirstOrDefaultAsync();
+
+            return profile;
+        }
     }
 }
