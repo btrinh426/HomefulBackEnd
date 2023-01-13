@@ -4,7 +4,9 @@ using System.Text;
 using HomefulBackEnd.Models;
 using HomefulBackEnd.Services;
 using HomefulBackEnd.Auth;
-
+using HomefulBackEnd.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using HomefulBackEnd.Auth.Interfaces;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -23,8 +25,8 @@ builder.Services.AddCors(options =>
 builder.Services.Configure<HomefulDatabaseSettings>(
     builder.Configuration.GetSection("HomefulDatabase"));
 
-builder.Services.AddSingleton<ProfilesService>();
-builder.Services.AddSingleton<LoginService>();
+builder.Services.AddSingleton<IProfilesService, ProfilesService>();
+builder.Services.AddSingleton<ILoginService, LoginService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -51,7 +53,7 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-builder.Services.AddSingleton<JwtAuthenticationManager>(new JwtAuthenticationManager(key));
+builder.Services.AddSingleton<IJwtAuthService, JwtAuthService>();
 
 
 var app = builder.Build();

@@ -1,10 +1,11 @@
 ﻿using HomefulBackEnd.Models;
+using HomefulBackEnd.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace HomefulBackEnd.Services
 {
-    public class LoginService
+    public class LoginService : ILoginService
     {
         private readonly IMongoCollection<CompleteProfile> _profilesCollection;
 

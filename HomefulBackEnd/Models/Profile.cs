@@ -10,6 +10,8 @@
 
         public string? Password { get; set; }
 
+        public byte[]? _Salt { get; set; }
+
         public string? DateOfBirth { get; set; }
 
         public string? CurrentLocation { get; set; }

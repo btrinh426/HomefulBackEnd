@@ -1,11 +1,11 @@
 ﻿using HomefulBackEnd.Models;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
-
+using HomefulBackEnd.Services.Interfaces;
 
 namespace HomefulBackEnd.Services
 {
-    public class ProfilesService
+    public class ProfilesService : IProfilesService
     {
         private readonly IMongoCollection<CompleteProfile> _profilesCollection;
 
@@ -25,7 +25,7 @@ namespace HomefulBackEnd.Services
         public async Task CreateAsync(CompleteProfile newProfile)
         {
             PasswordHash gen = new PasswordHash();
-            string hashed = gen.Hash(newProfile.Profile.Password);
+            string hashed = gen.Hash(newProfile.Profile.Password, null);
             newProfile.Profile.Password = hashed;
             await _profilesCollection.InsertOneAsync(newProfile);
 

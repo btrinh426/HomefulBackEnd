@@ -9,9 +9,9 @@ namespace HomefulBackEnd.Controllers
     public class WeatherForecastController : ControllerBase
     {
         
-        private readonly JwtAuthenticationManager _jwtAuthenticationManager;
+        private readonly JwtAuthService _jwtAuthenticationManager;
 
-        public WeatherForecastController(JwtAuthenticationManager jwtAuthenticationManager)
+        public WeatherForecastController(JwtAuthService jwtAuthenticationManager)
         {
             this._jwtAuthenticationManager = jwtAuthenticationManager;
         }
