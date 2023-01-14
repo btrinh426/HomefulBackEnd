@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver.Core.Events;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Text;
 
 namespace HomefulBackEnd.Services
@@ -11,15 +12,6 @@ namespace HomefulBackEnd.Services
         byte[] salt;
         string password;
 
-        public PasswordHash()
-        {
-
-        }
-        public PasswordHash(string password, byte[] salt)
-        {
-            this.password = password;
-            this.salt = salt;
-        }
         public string Hash(string? password, byte[] salt)
         {
             HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
@@ -28,14 +20,14 @@ namespace HomefulBackEnd.Services
                 salt = RandomNumberGenerator.GetBytes(SaltSize);
             }
             byte[] hash = Rfc2898DeriveBytes.Pbkdf2(Encoding.UTF8.GetBytes(password!), salt, HashIter, hashAlgorithm, HashSize);
+            Console.WriteLine(Convert.ToHexString(hash));
             return Convert.ToHexString(hash);        
         }
 
-        public string Verify(string password, byte[] salt)
+        public string Verify(string? password, byte[] salt)
         {
             var hashed = Hash(password, salt);
             Console.WriteLine(hashed);
-
             return hashed;
         }
 

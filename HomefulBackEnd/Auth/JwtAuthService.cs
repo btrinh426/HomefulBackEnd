@@ -9,6 +9,7 @@ using HomefulBackEnd.Auth.Interfaces;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using HomefulBackEnd.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HomefulBackEnd.Auth
 {
@@ -57,37 +58,36 @@ namespace HomefulBackEnd.Auth
                 return null;
             }
 
-            var hash = new PasswordHash(password, profile.Profile._Salt);
-            hash.Verify(password, profile.Profile._Salt);
-            string verifiedHash = hash.ToString();
+            PasswordHash hash = new PasswordHash();
+            string verifiedHash = hash.Verify(password, profile.Profile._Salt);
 
             if (verifiedHash == profile.Profile.Password)
             {
-                Console.WriteLine("verified");
-            } else
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                var tokenKey = Encoding.ASCII.GetBytes(key);
+
+                SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, username)
+                    }),
+
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(tokenKey),
+                        SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+
+                return tokenHandler.WriteToken(token);
+            }
+            else
             {
-                Console.Write(profile.Profile.Password);
-                Console.WriteLine("not verified");
+
+                return null;
             }
 
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes(key);
-
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, username)
-                }),
-
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(tokenKey),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
         }
     }
 }
