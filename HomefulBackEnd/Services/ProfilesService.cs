@@ -25,8 +25,9 @@ namespace HomefulBackEnd.Services
         public async Task CreateAsync(CompleteProfile newProfile)
         {
             PasswordHash gen = new PasswordHash();
-            string hashed = gen.Hash(newProfile.Profile.Password, null);
-            newProfile.Profile.Password = hashed;
+            PasswordData hashed = gen.Hash(newProfile.Profile.Password, null);
+            newProfile.Profile.Password = hashed.HashedPassword;
+            newProfile.Profile._Salt= hashed.Salt;
             await _profilesCollection.InsertOneAsync(newProfile);
 
         }

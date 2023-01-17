@@ -59,9 +59,9 @@ namespace HomefulBackEnd.Auth
             }
 
             PasswordHash hash = new PasswordHash();
-            string verifiedHash = hash.Verify(password, profile.Profile._Salt);
+            PasswordData verifiedHash = hash.Verify(password, profile.Profile._Salt);
 
-            if (verifiedHash == profile.Profile.Password)
+            if (verifiedHash.HashedPassword == profile.Profile.Password)
             {
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 var tokenKey = Encoding.ASCII.GetBytes(key);
